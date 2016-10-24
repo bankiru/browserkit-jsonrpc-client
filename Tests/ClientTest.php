@@ -133,7 +133,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
                 $this->getRequest()->willReturn(
                     new Request($uri, $method, $parameters, $files, [], $server, $content)
                 );
-                $this->getResponse()->willReturn($response);
+                $this->getInternalResponse()->willReturn($response);
             }
         );
     }

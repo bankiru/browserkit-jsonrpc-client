@@ -134,18 +134,9 @@ final class JsonRpcClient implements RpcClientInterface
 
     /**
      * @return Response
-     * @throws RemoteCallFailedException
      */
     private function checkResponse()
     {
-        $response = $this->client->getResponse();
-
-        if (!$response instanceof Response) {
-            throw new RemoteCallFailedException(
-                'Your browser-kit client implementation does not returns ' . Response::class . ' instance'
-            );
-        }
-
-        return $response;
+        return $this->client->getInternalResponse();
     }
 }
