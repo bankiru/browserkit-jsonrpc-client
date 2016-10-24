@@ -133,7 +133,7 @@ final class JsonRpcClient implements RpcClientInterface
     }
 
     /**
-     * @return null|Response
+     * @return Response
      * @throws RemoteCallFailedException
      */
     private function checkResponse()
