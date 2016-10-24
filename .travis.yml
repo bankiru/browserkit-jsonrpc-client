@@ -1,0 +1,39 @@
+language: php
+
+php:
+  - 5.5
+  - 5.6
+  - 7
+  - nightly
+  - hhvm
+
+sudo: false
+
+env:
+  - PACKAGES='symfony/browser-kit=2.7.*'
+  - PACKAGES='symfony/browser-kit=2.8.*'
+  - PACKAGES='symfony/browser-kit=3.0.*'
+  - PACKAGES='symfony/browser-kit=3.1.*'
+  - PACKAGES='symfony/browser-kit=~3.2@dev'
+
+matrix:
+    include:
+      - php: 5.5
+        env: PACKAGES='symfony/symfony=2.7.*' deps='low'
+
+  fast_finish: true
+  allow_failures:
+    - php: hhvm
+    - php: nightly
+
+before_install:
+  - travis_retry composer self-update
+
+install:
+  - composer require --no-update ${PACKAGES}
+  - if [ "$deps" = "no"] || [ -z "$deps" ]; then composer --prefer-source install; fi;
+  - if [ "$deps" = "low" ]; then composer --prefer-source --prefer-lowest --prefer-stable update; composer --prefer-source install; fi;
+
+script:
+  - mkdir -p build
+  - vendor/bin/phpunit --colors -c phpunit.xml
