@@ -5,6 +5,7 @@ namespace Bankiru\Api\BrowserKit\Tests;
 use Bankiru\Api\BrowserKit\JsonRpcClient;
 use Bankiru\Api\BrowserKit\JsonRpcResponseCollection;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use ScayTrase\Api\JsonRpc\JsonRpcError;
 use ScayTrase\Api\JsonRpc\JsonRpcNotification;
 use ScayTrase\Api\JsonRpc\JsonRpcRequest;
@@ -15,6 +16,7 @@ use Symfony\Component\BrowserKit\Response;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var  Client|ObjectProphecy */
     private $client;
 
     public function getResponses()
@@ -108,7 +110,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     private function createClient()
     {
         if (!$this->client) {
-            $this->client = $mock = $this->prophesize(Client::class);
+            $this->client = $this->prophesize(Client::class);
             $this->client->restart()->willReturn(null);
         }
 
@@ -127,6 +129,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         )->will(
 
             function (array $arguments) use ($response) {
+                /** @var Client $this */
                 list($method, $uri, $parameters, $files, $server, $content) = $arguments;
 
                 $this->getRequest()->willReturn(
