@@ -100,11 +100,10 @@ final class JsonRpcResponseCollection implements \IteratorAggregate, ResponseCol
         }
 
         $this->responses = [];
-        foreach ($rawResponses as $rawResponse) {
+        foreach ((array)$rawResponses as $rawResponse) {
             try {
                 $response = new SyncResponse($rawResponse);
             } catch (ResponseParseException $exception) {
-                //todo: logging??? (@scaytrase)
                 continue;
             }
 

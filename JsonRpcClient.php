@@ -11,6 +11,7 @@ use ScayTrase\Api\Rpc\RpcClientInterface;
 use ScayTrase\Api\Rpc\RpcRequestInterface;
 use Symfony\Component\BrowserKit\Client;
 use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\BrowserKit\Response;
 
 final class JsonRpcClient implements RpcClientInterface
 {
@@ -28,8 +29,9 @@ final class JsonRpcClient implements RpcClientInterface
     /**
      * JsonRpcClient constructor.
      *
-     * @param Client $client
-     * @param string $uri
+     * @param Client               $client
+     * @param string               $uri
+     * @param IdGeneratorInterface $idGenerator
      */
     public function __construct(Client $client, $uri, IdGeneratorInterface $idGenerator = null)
     {
@@ -58,7 +60,7 @@ final class JsonRpcClient implements RpcClientInterface
                 );
 
                 return new JsonRpcResponseCollection(
-                    $this->client->getResponse(),
+                    $this->checkResponse(),
                     [new RequestTransformation($calls, $transformedCall)]
                 );
             }
@@ -66,7 +68,7 @@ final class JsonRpcClient implements RpcClientInterface
             $requests     = [];
             $batchRequest = [];
 
-            foreach ($calls as $key => $call) {
+            foreach ((array)$calls as $key => $call) {
                 $transformedCall                  = $this->transformCall($call);
                 $requests[spl_object_hash($call)] = new RequestTransformation($call, $transformedCall);
                 $batchRequest[]                   = $transformedCall;
@@ -86,7 +88,7 @@ final class JsonRpcClient implements RpcClientInterface
             );
 
             return new JsonRpcResponseCollection(
-                $this->client->getResponse(),
+                $this->checkResponse(),
                 $requests
             );
         } catch (\Exception $exception) {
@@ -128,5 +130,22 @@ final class JsonRpcClient implements RpcClientInterface
         }
 
         return $transformedCall;
+    }
+
+    /**
+     * @return null|Response
+     * @throws RemoteCallFailedException
+     */
+    private function checkResponse()
+    {
+        $response = $this->client->getResponse();
+
+        if (!$response instanceof Response) {
+            throw new RemoteCallFailedException(
+                'Your browser-kit client implementation does not returns ' . Response::class . ' instance'
+            );
+        }
+
+        return $response;
     }
 }
