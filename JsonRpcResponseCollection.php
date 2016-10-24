@@ -80,7 +80,7 @@ final class JsonRpcResponseCollection implements \IteratorAggregate, ResponseCol
     private function sync()
     {
         if (200 !== $this->response->getStatus()) {
-            throw new RemoteCallFailedException();
+            throw new RemoteCallFailedException('Remote response was not successful');
         }
 
         $data = (string)$this->response->getContent();

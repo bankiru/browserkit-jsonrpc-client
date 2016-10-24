@@ -5,6 +5,7 @@ namespace Bankiru\Api\BrowserKit\Tests;
 use Bankiru\Api\BrowserKit\JsonRpcClient;
 use Bankiru\Api\BrowserKit\JsonRpcResponseCollection;
 use Prophecy\Argument;
+use ScayTrase\Api\IdGenerator\UuidGenerator;
 use ScayTrase\Api\JsonRpc\JsonRpcError;
 use ScayTrase\Api\JsonRpc\JsonRpcNotification;
 use ScayTrase\Api\JsonRpc\JsonRpcRequest;
@@ -54,7 +55,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $client = $this->createClient();
         $this->push(new Response(json_encode($responses, JSON_PRETTY_PRINT)));
 
-        $jsonRpcClient = new JsonRpcClient($client, '/');
+        $jsonRpcClient = new JsonRpcClient($client, '/', new UuidGenerator());
 
         $request1 = new JsonRpcRequest('/test', [], 1);
         $request2 = new JsonRpcNotification('/test', null);

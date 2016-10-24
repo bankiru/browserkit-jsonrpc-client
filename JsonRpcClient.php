@@ -33,7 +33,7 @@ final class JsonRpcClient implements RpcClientInterface
      * @param string               $uri
      * @param IdGeneratorInterface $idGenerator
      */
-    public function __construct(Client $client, $uri, IdGeneratorInterface $idGenerator = null)
+    public function __construct(Client $client, $uri, IdGeneratorInterface $idGenerator)
     {
         $this->client      = $client;
         $this->uri         = $uri;
@@ -53,7 +53,7 @@ final class JsonRpcClient implements RpcClientInterface
                 $this->client->request(
                     $httpRequest->getMethod(),
                     $httpRequest->getUri(),
-                    $httpRequest->getParameters(),
+                    [],
                     [],
                     $httpRequest->getServer(),
                     $httpRequest->getContent()
@@ -77,7 +77,6 @@ final class JsonRpcClient implements RpcClientInterface
             $this->client->restart();
 
             $httpRequest = $this->createHttpRequest($batchRequest);
-
             $this->client->request(
                 $httpRequest->getMethod(),
                 $httpRequest->getUri(),
