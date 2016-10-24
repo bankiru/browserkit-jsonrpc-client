@@ -17,9 +17,9 @@ env:
   - PACKAGES='symfony/browser-kit=~3.2@dev'
 
 matrix:
-    include:
-      - php: 5.5
-        env: PACKAGES='symfony/symfony=2.7.*' deps='low'
+  include:
+    - php: 5.5
+      env: PACKAGES='symfony/symfony=2.7.*' deps='low'
 
   fast_finish: true
   allow_failures:
