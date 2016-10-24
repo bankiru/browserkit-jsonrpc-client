@@ -7,7 +7,13 @@ php:
   - nightly
   - hhvm
 
+## Run on container environment
 sudo: false
+
+## Cache composer bits
+cache:
+  directories:
+    - $HOME/.composer/cache
 
 env:
   - PACKAGES='symfony/browser-kit=2.7.*'
