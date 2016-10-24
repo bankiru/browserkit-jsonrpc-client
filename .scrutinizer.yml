@@ -9,4 +9,4 @@ build:
 
 filter:
   excluded_paths:
-    - "./Tests/"
+    - "Tests/"

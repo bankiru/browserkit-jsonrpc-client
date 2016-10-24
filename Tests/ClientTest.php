@@ -5,7 +5,6 @@ namespace Bankiru\Api\BrowserKit\Tests;
 use Bankiru\Api\BrowserKit\JsonRpcClient;
 use Bankiru\Api\BrowserKit\JsonRpcResponseCollection;
 use Prophecy\Argument;
-use Prophecy\Prophecy\ObjectProphecy;
 use ScayTrase\Api\JsonRpc\JsonRpcError;
 use ScayTrase\Api\JsonRpc\JsonRpcNotification;
 use ScayTrase\Api\JsonRpc\JsonRpcRequest;
@@ -16,7 +15,6 @@ use Symfony\Component\BrowserKit\Response;
 
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  Client|ObjectProphecy */
     private $client;
 
     public function getResponses()
@@ -64,9 +62,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
         $collection = $jsonRpcClient->invoke([$request1, $request2, $request3]);
 
-        $response1  = $collection->getResponse($request1);
-        $response2  = $collection->getResponse($request2);
-        $response3  = $collection->getResponse($request3);
+        $response1 = $collection->getResponse($request1);
+        $response2 = $collection->getResponse($request2);
+        $response3 = $collection->getResponse($request3);
         self::assertTrue($response1->isSuccessful());
         self::assertTrue($response2->isSuccessful());
         self::assertFalse($response3->isSuccessful());
