@@ -4,6 +4,7 @@ namespace Bankiru\Api\BrowserKit\Tests;
 
 use Bankiru\Api\BrowserKit\JsonRpcClient;
 use Bankiru\Api\BrowserKit\JsonRpcResponseCollection;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use ScayTrase\Api\IdGenerator\UuidGenerator;
 use ScayTrase\Api\JsonRpc\JsonRpcError;
@@ -14,7 +15,7 @@ use Symfony\Component\BrowserKit\Client;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\BrowserKit\Response;
 
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
     private $client;
 
@@ -106,6 +107,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /** @return Client */
     private function createClient()
     {
         if (!$this->client) {
