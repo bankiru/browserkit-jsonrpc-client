@@ -18,16 +18,20 @@ cache:
 env:
   - PACKAGES='symfony/browser-kit=2.7.*'
   - PACKAGES='symfony/browser-kit=2.8.*'
-  - PACKAGES='symfony/browser-kit=3.0.*'
-  - PACKAGES='symfony/browser-kit=3.1.*'
-  - PACKAGES='symfony/browser-kit=~3.2@dev'
+  - PACKAGES='symfony/browser-kit=3.2.*'
+  - PACKAGES='symfony/browser-kit=3.3.*'
+  - PACKAGES='symfony/browser-kit=~3.4@dev'
 
 matrix:
+  fast_finish: true
   include:
     - php: 5.5
-      env: PACKAGES='symfony/symfony=2.7.*' deps='low'
+      env: PACKAGES='symfony/browser-kit=2.7.*' deps='low'
+    - php: 7.1
+      env: PACKAGES='symfony/symfony=~4.0@dev' deps='no'
+    - php: nightly
+      env: PACKAGES='symfony/symfony=~4.0@dev' deps='no'
 
-  fast_finish: true
   allow_failures:
     - php: hhvm
     - php: nightly
@@ -37,7 +41,7 @@ before_install:
 
 install:
   - composer require --no-update ${PACKAGES}
-  - if [ "$deps" = "no"] || [ -z "$deps" ]; then composer --prefer-source install; fi;
+  - if [ "$deps" = "no" ] || [ -z "$deps" ]; then composer --prefer-source install; fi;
   - if [ "$deps" = "low" ]; then composer --prefer-source --prefer-lowest --prefer-stable update; composer --prefer-source install; fi;
 
 script:
